@@ -1,0 +1,32 @@
+ function Tab(id){
+        console.log(this);//这里的this是具体的实例tab{}
+        this.oDiv = document.getElementById(id);
+        this.aInput = this.oDiv.getElementsByTagName("input");
+        this.aDiv = this.oDiv.getElementsByTagName("div");
+    }
+    Tab.prototype = {
+        constructor:Tab,
+        init:function(){
+            //方法里的this也是具体的实例
+            this.aInput[0].style.background = "orange";
+            this.aDiv[0].style.display = "block";
+            var _this = this;//缓存外部this  是tab实例
+            for (var i = 0; i < this.aInput.length; i++) {
+                this.aInput[i].index = i;
+                this.aInput[i].onclick = function(){
+                    _this.change(this);//这里的input每一项
+                    console.log(this);
+                }
+            }
+        },
+        change:function(obj){
+            for (var i = 0; i < this.aInput.length; i++) {
+                this.aInput[i].style.background = "";
+                this.aDiv[i].style.display = "none";
+            }
+            obj.style.background = "orange";
+            this.aDiv[obj.index].style.display = "block";
+        }
+    }
+    var tab = new Tab("div");
+    tab.init();
